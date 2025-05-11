@@ -1,0 +1,14 @@
+.portrait {
+  display: flex;
+  flex-direction: column;
+}
+
+.camera {
+  position: fixed;
+  left: 1000%;
+}
+
+.photo {
+  position: relative;
+  top: ;
+}
