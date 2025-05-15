@@ -12,7 +12,8 @@ const Portrait = () => {
     window.navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
-        let video = videoRef.current;
+        const video = videoRef.current;
+        if (!video) return;
         video.srcObject = stream;
         video.play();
       })
@@ -22,17 +23,25 @@ const Portrait = () => {
   };
 
   const takePhoto = () => {
-    const width = 414;
-    const height = width / (16 / 9);
+    const video = videoRef.current;
+    const photo = photoRef.current;
 
-    let video = videoRef.current;
-    let photo = photoRef.current;
+    if (!photo || !video) return;
+
+    const container = photo.parentElement;
+    if (!container) return;
+
+    const width = container.clientWidth;
+    const height = container.clientHeight;
 
     photo.width = width;
     photo.height = height;
 
-    let ctx = photo?.getContext("2d");
+    const ctx = photo.getContext("2d");
+    if (!ctx) return;
+
     ctx.drawImage(video, 0, 0, width, height);
+
     setHasPhoto(true);
   };
 
@@ -45,9 +54,14 @@ const Portrait = () => {
       <div className={styles.camera}>
         <video ref={videoRef}></video>
       </div>
-      <button onClick={takePhoto}>Kas gaidys?</button>
-      <div className={`${styles.photo} ${hasPhoto ? styles.photoOn : ""}`}>
-        <canvas ref={photoRef}></canvas>
+      <div className={styles.photoFrame}>
+        <canvas className={styles.screenShot} ref={photoRef}></canvas>
+        <button
+          className={`${styles.snapButton} ${hasPhoto ? styles.photoOn : ""}`}
+          onClick={takePhoto}
+        >
+          Kas gaidys?
+        </button>
       </div>
     </div>
   );

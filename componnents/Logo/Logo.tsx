@@ -1,18 +1,17 @@
-'use client';
-import {useRouter} from 'next/navigation'
-import styles from './main.module.css'
+"use client";
+import styles from "./main.module.css";
 
 const Logo = () => {
-const router = useRouter();
-
-const handleClick = () =>{
-    router.refresh();
-    console.log('refreshed')
-}
+  const handleClick = () => {
+    window.location.href = "/";
+    console.log("refreshed");
+  };
 
   return (
-    <div className={styles.logo}onClick={handleClick}>Logo</div>
-  )
-}
+    <div className={styles.logo} onClick={handleClick}>
+      Kas Gaidys?
+    </div>
+  );
+};
 
-export default Logo
+export default Logo;

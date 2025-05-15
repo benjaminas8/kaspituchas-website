@@ -1,14 +1,82 @@
 .portrait {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .camera {
-  position: fixed;
-  left: 1000%;
+  display: none;
 }
 
-.photo {
+.photoFrame {
+  width: 414;
+  aspect-ratio: 16/9;
+  background-color: black;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  top: ;
+}
+.photoFrame {
+  width: 90vw;
+  max-width: 800px;
+  aspect-ratio: 16 / 9;
+  background-color: black;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.screenShot {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.snapButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  background-color: #0070f3;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 112, 243, 0.4);
+  transition: background-color 0.3s ease;
+  z-index: 10;
+}
+
+.snapButton:hover {
+  background-color: #005bb5;
+}
+
+.photoOn {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .photoFrame {
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 400px) {
+  .photoFrame {
+    width: 95vw;
+  }
 }
