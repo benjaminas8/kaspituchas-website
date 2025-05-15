@@ -11,22 +11,14 @@
 }
 
 .photoFrame {
-  width: 414;
-  aspect-ratio: 16/9;
-  background-color: black;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-.photoFrame {
   width: 90vw;
   max-width: 800px;
   aspect-ratio: 16 / 9;
   background-color: black;
   border: 1px solid black;
+  /* Eggshape */
+  /* border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%; */
+  border-radius: 13%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,6 +26,7 @@
   position: relative;
   margin: 0 auto;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .screenShot {

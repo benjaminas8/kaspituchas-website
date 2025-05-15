@@ -2,7 +2,12 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import styles from "./main.module.css";
-const Portrait = () => {
+
+interface PortraitProps{
+  onTakePhoto: () => void;
+}
+
+const Portrait = ({onTakePhoto}:PortraitProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const photoRef = useRef<HTMLCanvasElement>(null);
 
@@ -26,23 +31,22 @@ const Portrait = () => {
     const video = videoRef.current;
     const photo = photoRef.current;
 
-    if (!photo || !video) return;
+    if (video && photo) {
+      const context = photo.getContext("2d");
+      if (context){
+        const container = photo.parentElement;
+        if(container){
+          const width = container.clientWidth;
+          const height = container.clientHeight;
+          photo.width = width;
+          photo.height = height;
 
-    const container = photo.parentElement;
-    if (!container) return;
-
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-
-    photo.width = width;
-    photo.height = height;
-
-    const ctx = photo.getContext("2d");
-    if (!ctx) return;
-
-    ctx.drawImage(video, 0, 0, width, height);
-
-    setHasPhoto(true);
+          context.drawImage(video, 0, 0, photo.width, photo.height);
+          setHasPhoto(true);
+          onTakePhoto();
+        }
+      }
+    } 
   };
 
   useEffect(() => {

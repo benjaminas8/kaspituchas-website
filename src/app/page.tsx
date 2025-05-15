@@ -1,7 +1,7 @@
 import backgroundImage from "../../public/rooster-background.png";
 import styles from "./page.module.css";
 import Logo from "../../componnents/Logo/Logo";
-import Portrait from "../../componnents/Portrait/Portrait";
+import Curtain from "../../componnents/Curtain/Curtain";
 
 export default function Home() {
   return (
@@ -20,7 +20,7 @@ export default function Home() {
         }}
         className={styles.main}
       >
-        <Portrait />
+        <Curtain />
       </main>
       <footer className={styles.footer}>©Kas Gaidys</footer>
     </div>

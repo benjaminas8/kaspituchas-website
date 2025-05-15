@@ -12,17 +12,18 @@
   align-content: center;
 }
 
-.main{
- margin: auto;
+.main {
+  margin: auto;
+  width: 100%;
 }
 
-.portrait{
+.portrait {
   height: 400px;
   width: 400px;
   background-color: red;
 }
 
-.footer{
+.footer {
   height: 80px;
   background-color: green;
 }
