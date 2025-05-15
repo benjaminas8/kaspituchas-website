@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, RefObject } from "react";
 import styles from "./main.module.css";
+import { getVideo, takePhoto as takePhotoUtil, setupPermissionObserver} from "../../Utils/cameraUtils";
 
 interface PortraitProps{
   onTakePhoto: () => void;
@@ -12,46 +13,36 @@ const Portrait = ({onTakePhoto}:PortraitProps) => {
   const photoRef = useRef<HTMLCanvasElement>(null);
 
   const [hasPhoto, setHasPhoto] = useState(false);
+  const [hasCameraPermission, setCameraPermission] = useState(false);
+  const [permissionError, setPermissionError] = useState<string>("");
 
-  const getVideo = () => {
-    window.navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((stream) => {
-        const video = videoRef.current;
-        if (!video) return;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  const takePhoto = () => {
-    const video = videoRef.current;
-    const photo = photoRef.current;
-
-    if (video && photo) {
-      const context = photo.getContext("2d");
-      if (context){
-        const container = photo.parentElement;
-        if(container){
-          const width = container.clientWidth;
-          const height = container.clientHeight;
-          photo.width = width;
-          photo.height = height;
-
-          context.drawImage(video, 0, 0, photo.width, photo.height);
-          setHasPhoto(true);
-          onTakePhoto();
-        }
-      }
-    } 
+  const handleTakePhoto = () => {
+    if (!videoRef.current) {
+      setPermissionError("Video element not found");
+      return;
+    }
+    if (!photoRef.current) {
+      setPermissionError("Photo element not found");
+      return;
+    }
+    takePhotoUtil(videoRef as RefObject<HTMLVideoElement>, photoRef as RefObject<HTMLCanvasElement>, hasCameraPermission, {
+      setPermissionError,
+      onPhotoTaken: () => {
+        setHasPhoto(true);
+        onTakePhoto();
+      },
+    });
   };
 
   useEffect(() => {
-    getVideo();
-  }, [videoRef]);
+    if (videoRef.current) {
+      const handlers = { setCameraPermission, setPermissionError };
+      getVideo(videoRef as RefObject<HTMLVideoElement>, handlers);
+      setupPermissionObserver(handlers);
+    }
+  }, []);
+
+    
 
   return (
     <div className={styles.portrait}>
@@ -62,9 +53,9 @@ const Portrait = ({onTakePhoto}:PortraitProps) => {
         <canvas className={styles.screenShot} ref={photoRef}></canvas>
         <button
           className={`${styles.snapButton} ${hasPhoto ? styles.photoOn : ""}`}
-          onClick={takePhoto}
+          onClick={handleTakePhoto}
         >
-          Kas gaidys?
+          {permissionError || "Kas gaidys?"}
         </button>
       </div>
     </div>

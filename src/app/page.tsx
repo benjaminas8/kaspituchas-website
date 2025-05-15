@@ -1,14 +1,12 @@
 import backgroundImage from "../../public/rooster-background.png";
 import styles from "./page.module.css";
-import Logo from "../../componnents/Logo/Logo";
+import Header from "../../componnents/Header/Header";
 import Curtain from "../../componnents/Curtain/Curtain";
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <Logo />
-      </header>
+      <Header />
       <main
         style={{
           backgroundImage: `url(${backgroundImage.src})`,
